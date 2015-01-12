@@ -1,7 +1,9 @@
 <?php
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('login','UserController@login' );
+Route::get('logout','UserController@logout' );
 Route::resource('user', "UserController" );
+
+//Route::get('user',function(){
+//    
+//})->before('auth');
