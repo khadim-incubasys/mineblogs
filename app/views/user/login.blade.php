@@ -15,6 +15,13 @@
     </div> <br>
     {{ Form::submit('Login') }}
     {{Form::close() }}
+    <hr>
+    <div>
+        {{ link_to("/user/loginwith/Facebook","Facebook Login") }} <br>
+        {{ link_to("/user/loginwith/Google","Google Login") }}
+    </div>
 </div>
+
+
 
 @stop

@@ -1,0 +1,1 @@
+/home/raath/mineblogs/resources/views/Dogs/show.blade.php

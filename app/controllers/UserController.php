@@ -7,7 +7,6 @@ class UserController extends \BaseController {
      *
      * @return Response
      */
- 
     public function __construct() {
         
     }
@@ -18,12 +17,18 @@ class UserController extends \BaseController {
 
     public function login() {
         if (Request::isMethod('post')) {
-            $user_model = new UserModel();
+            $user_model = new User();
             $user = $user_model->login();
             dd($user);
         } else {
             return View::make("user/login")->withTitle("User Login");
         }
+    }
+
+    public function social_login($param) {
+        $user = new User();
+        $response= $user->social_logon($param);
+        dd($response);
     }
 
     public function logout() {
@@ -32,7 +37,7 @@ class UserController extends \BaseController {
 
     public function register() {
         if (Request::isMethod('post')) {
-            $user_model = new UserModel();
+            $user_model = new User();
             $user = $user_model->register();
             dd($user);
         } else {
