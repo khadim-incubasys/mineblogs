@@ -1,9 +1,10 @@
 <?php
 
-Route::get('login','UserController@login' );
-Route::get('logout','UserController@logout' );
-Route::resource('user', "UserController" );
+Route::get('/',"HomeController@showWelcome");
 
-//Route::get('user',function(){
-//    
-//})->before('auth');
+Route::get('user/login','UserController@login' );
+Route::post('user/login','UserController@login' );
+Route::get('user/register','UserController@register' );
+Route::post('user/register','UserController@register' );
+Route::get('user/logout','UserController@logout' );
+Route::resource('user', "UserController" );
