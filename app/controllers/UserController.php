@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends \BaseController {
+class UserController extends BaseController {
 
     /**
      * Display a listing of the resource.
@@ -8,18 +8,28 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function __construct() {
-        
+        // $this->filter('before', 'auth');
     }
 
     public function index() {
-        return "User Index Page";
+        if (Auth::check()) {
+            //return View::make("user/index")->withTitle("User-Home Page");
+            $blogs = Blog::all();
+            return View::make('blogs.index', compact('blogs'));
+        } else {
+            return Redirect::to('/user/login');
+        }
     }
 
     public function login() {
+        // print_r(isMethod('post'));
         if (Request::isMethod('post')) {
             $user_model = new User();
-            $user = $user_model->login();
-            dd($user);
+            $response = $user_model->login();
+            if (!$response) {
+                return Redirect::back()->withError(['Login failed.']);
+            }
+            return Redirect::route('user.index'); //->with('name', $name);
         } else {
             return View::make("user/login")->withTitle("User Login");
         }
@@ -27,19 +37,26 @@ class UserController extends \BaseController {
 
     public function social_login($param) {
         $user = new User();
-        $response= $user->social_logon($param);
-        dd($response);
+        $response = $user->social_signon($param);
+        if (!$response) {
+            return Redirect::back()->withError(['Login failed.']);
+        }
+        return Redirect::route('user.index');
     }
 
     public function logout() {
-        return "User Logout Page";
+        Auth::logout();
+        echo 'log out';
     }
 
     public function register() {
         if (Request::isMethod('post')) {
             $user_model = new User();
             $user = $user_model->register();
-            dd($user);
+            if (!$user) {
+                return View::make("user/register")->withTitle("User Registration");
+            }
+            return Redirect::route('user/login')->withError("Registered Successfully");
         } else {
             return View::make("user/register")->withTitle("User Registration");
         }
@@ -60,7 +77,7 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function store() {
-        //
+        
     }
 
     /**
@@ -70,7 +87,11 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function show($id) {
-        //
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            return View::make("user/show", compact('user'));
+        }
+        App::abort(404);
     }
 
     /**
@@ -80,7 +101,11 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        //
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            return View::make("user/edit", compact('user'));
+        }
+        echo 'User Not Exist';
     }
 
     /**
@@ -90,7 +115,12 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        //
+        $user_model = new User();
+        $response = $user_model->update_user($id);
+        if (!$response) {
+            return Redirect::back()->withError(['Login failed.']);
+        }
+        return Redirect::route('user.show', $id);
     }
 
     /**

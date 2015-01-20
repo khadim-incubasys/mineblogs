@@ -1,0 +1,69 @@
+<?php
+/** author:Khadim Raath */
+class $NAME$ extends BaseController {
+
+	public function index()
+	{
+		$$COLLECTION$ = $MODEL$::all();
+
+		return View::make('$COLLECTION$.index', compact('$COLLECTION$'));
+	}
+
+	public function create()
+	{
+		return View::make('$COLLECTION$.create');
+	}
+
+	public function store()
+	{
+		$validator = Validator::make($data = Input::all(), $MODEL$::$rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$MODEL$::create($data);
+
+		return Redirect::route('$COLLECTION$.index');
+	}
+
+	public function show($id)
+	{
+		$$RESOURCE$ = $MODEL$::findOrFail($id);
+
+		return View::make('$COLLECTION$.show', compact('$RESOURCE$'));
+	}
+
+	public function edit($id)
+	{
+		$$RESOURCE$ = $MODEL$::find($id);
+
+		return View::make('$COLLECTION$.edit', compact('$RESOURCE$'));
+	}
+
+
+	public function update($id)
+	{
+		$$RESOURCE$ = $MODEL$::findOrFail($id);
+
+		$validator = Validator::make($data = Input::all(), $MODEL$::$rules);
+
+		if ($validator->fails())
+		{
+			return Redirect::back()->withErrors($validator)->withInput();
+		}
+
+		$$RESOURCE$->update($data);
+
+		return Redirect::route('$COLLECTION$.index');
+	}
+
+	public function destroy($id)
+	{
+		$MODEL$::destroy($id);
+
+		return Redirect::route('$COLLECTION$.index');
+	}
+
+}

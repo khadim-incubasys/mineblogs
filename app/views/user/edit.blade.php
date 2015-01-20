@@ -2,34 +2,26 @@
 @section('content')
 
 <div class="welcome">
-    <h1>User Registration</h1>
+    <h1>Update Information</h1>
     <hr>
-    {{ Form::open() }}
-    <div>
-        {{Form::label('email','Email Adr') }}
-        {{Form::text('email') }}
-    </div>
-    <div>
-        {{Form::label('password','Password') }}
-        {{Form::password('password') }}
-    </div>
+    {{ Form::open(['route' => ['user.update', $user->id], 'method' => 'put']) }}
     <div>
         {{Form::label('name','User Name') }}
-        {{Form::text('name') }}
+        {{Form::text('name',$user->name) }}
     </div>
     <div>
         {{Form::label('city','City Name') }}
-        {{Form::text('city') }}
+        {{Form::text('city',$user->city) }}
     </div>
     <div>
         {{Form::label('country','Country') }}
-        {{Form::text('country') }}
+        {{Form::text('country',$user->country) }}
     </div>
     <br>
-    {{ Form::submit('Register') }}
+    {{ Form::submit('Save') }}
     {{Form::close() }}
     <hr>
-    {{ link_to("user/login","Login") }} <br>
+    {{ link_to("user","Home") }} <br>
 
     <div>
         <h3>

@@ -17,11 +17,19 @@
     {{Form::close() }}
     <hr>
     <div>
-        {{ link_to("/user/loginwith/Facebook","Facebook Login") }} <br>
-        {{ link_to("/user/loginwith/Google","Google Login") }}
+        {{ link_to("user_loginwith/Facebook","Facebook") }} <br>
+        {{ link_to("user_loginwith/Google","Google") }} <br>
+        {{ link_to("user_loginwith/Twitter","Twitter") }}<br>
+        {{ link_to("user_loginwith/LinkedIn","LinkedIn") }} <br>
     </div>
+    <div>
+        <h3>
+            @if(isset($error)) {{ $error }} 
+            {{ $error; }}
+            @endif
+        </h3>
+    </div>
+    <hr>
+    {{ link_to("user/register","Signup") }} <br>
 </div>
-
-
-
 @stop

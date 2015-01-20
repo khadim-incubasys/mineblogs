@@ -14,7 +14,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      * @var string
      */
     protected $table = 'users';
-    protected $fillable = array('email', 'password', 'name');
+    protected $primaryKey = 'id';
+    protected $fillable = array('email', 'password', 'name', 'city', 'country', 'imageUrl');
     protected $guarded = array('id', 'status');
     public static $rules = ['name' => 'required', 'email' => 'required', 'password' => 'required'];
 
@@ -36,24 +37,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function login() {
         $email = Request::input('email');
         $password = Request::input('password');
-
-        $user = DB::table('users')->where('email', $email)->first();
-        print_r($user->password.'  <br>  ');
-        print_r(Hash::make("123456").'<br>');
-        if ($user->password==Hash::make($password)) {
-            return 'match';
+        if (Auth::attempt(array('email' => $email, 'password' => $password))) {
+            return TRUE;
         } else {
-            return 'not match';
-        }
-        if (Auth::attempt(array('email' => $email, 'password' => Hash::make($password)))) {
-            return Auth::User();
-        } else {
-            return "authenticatation failed";
+            return FALSE;
         }
     }
 
-    public function social_logon($param) {
-        $userProfile = NULL;
+    public function social_signon($param) {
         try {
             // create a HybridAth object
             $config = Config::get('hybridauth');
@@ -63,13 +54,32 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             $provider = $socialAuth->authenticate($param);
             // fetch user profile
             $userProfile = $provider->getUserProfile();
+
+            $provider->logout();
+
+            $user = DB::table('users')->where('email', $userProfile->email)->first();
+            if (!$user) {
+                $password = $this->generatePassword();
+                $this->create([
+                    'password' => Hash::make($password),
+                    'email' => $userProfile->email,
+                    'name' => $userProfile->firstName . ' ' . $userProfile->lastName,
+                    'imageUrl' => $userProfile->photoURL,
+                    'city' => $userProfile->city,
+                    'country' => $userProfile->country,
+                    'status' => 1
+                        ]
+                );
+            }
+            if (Auth::attempt(array('email' => $userProfile->email, 'password' => $password))) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
         } catch (Exception $e) {
             // exception codes can be found on HybBridAuth's web site
-            return $e->getMessage();
+            return  FALSE; //$e->getMessage();
         }
-        // logout
-        $provider->logout();
-        return $userProfile;
     }
 
     public function register() {
@@ -79,31 +89,47 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
                         array(
                     'name' => Request::input('name'),
                     'password' => "123456", //Request::input('password'),
-                    'email' => Request::input('email')
+                    'email' => Request::input('email'),
+                    'city' => Request::input('city'),
+                    'country' => Request::input('country'),
                         ), array(
                     'name' => 'required',
+                    'city' => 'required',
+                    'country' => 'required',
                     'password' => 'required|min:6',
                     'email' => 'required|email|unique:users'
                         )
         );
         if ($validator->fails()) {
             $messages = $validator->messages();
-            return $messages;
+            return FALSE;
         } else {
             $password = Hash::make("123456"); // Hash::make(Request::input('password')); 
             $this->create([
                 'password' => $password,
                 'email' => Request::input('email'),
-                'name' => Request::input('name')
+                'name' => Request::input('name'),
+                'city' => Request::input('city'),
+                'country' => Request::input('country')
                     ]
             );
-            $insertedId = $this->id;
-            return $insertedId;
+            return TRUE;
         }
+    }
+    public function update_user($id){
+         $user = User::where('id', $id)->first();
+         if($user){
+             $user->name=Request::input('name');
+             $user->city=Request::input('city');
+             $user->country=Request::input('country');
+             $user->save();
+             return TRUE;
+         }
+         return FALSE;
     }
 
     public function getAuthIdentifier() {
-        return $this->email;
+        return $this->id;
     }
 
     public function getAuthPassword() {
@@ -119,11 +145,40 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     public function getReminderEmail() {
-        
+        return $this->email;
     }
 
     public function setRememberToken($value) {
         $this->remember_token = $value;
+    }
+
+    public function generatePassword($length = 9, $strength = 0) {
+        $vowels = 'aeuy';
+        $consonants = 'bdghjmnpqrstvz';
+        if ($strength & 1) {
+            $consonants .= 'BDGHJLMNPQRSTVWXZ';
+        }
+        if ($strength & 2) {
+            $vowels .= "AEUY";
+        }
+        if ($strength & 4) {
+            $consonants .= '23456789';
+        }
+        if ($strength & 8) {
+            $consonants .= '@#$%';
+        }
+        $password = '';
+        $alt = time() % 2;
+        for ($i = 0; $i < $length; $i++) {
+            if ($alt == 1) {
+                $password .= $consonants[(rand() % strlen($consonants))];
+                $alt = 0;
+            } else {
+                $password .= $vowels[(rand() % strlen($vowels))];
+                $alt = 1;
+            }
+        }
+        return $password;
     }
 
 }

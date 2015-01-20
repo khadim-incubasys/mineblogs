@@ -16,7 +16,6 @@ class CreateBlogCommentsTable extends Migration {
             $table->text('description');
              $table->integer('blog_id');
             $table->integer('user_id');
-            $table->string('user_name');
             $table->bigInteger('likes')->nullable()->default(0);
             $table->nullableTimestamps();
         });

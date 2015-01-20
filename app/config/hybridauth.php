@@ -1,7 +1,7 @@
 <?php
 
 return array(
-     'base_url'  => URL::route('hybridauth', array('process' => true)),
+    'base_url' => URL::route('hybridauth', array('process' => true)),
     "providers" => array(
         "Google" => array(
             "enabled" => true,
@@ -15,7 +15,11 @@ return array(
         ),
         "Twitter" => array(
             "enabled" => true,
-            "keys" => array("key" => "ID", "secret" => "SECRET")
+            "keys" => array("key" => "BPxDNRsbOLcm9wBMrOZuu4ASR", "secret" => "Uu8L6XoQ0ZhjfgsG4oZAIi7EKqBQ5gMAdTfjVMJ7BqUPJw2vwy")
+        ),
+        "LinkedIn" => array(
+            "enabled" => true,
+            "keys" => array("key" => "78vy560kasnos2", "secret" => "LLfRYnwR2i0uL2vC")
         )
     ),
 );

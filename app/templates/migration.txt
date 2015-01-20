@@ -1,0 +1,18 @@
+<?php
+/** author:Khadim Raath */
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
+class $CLASS$ extends Migration {
+
+	public function up()
+	{
+		$UP$
+	}
+
+	public function down()
+	{
+		$DOWN$
+	}
+
+}
