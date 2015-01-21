@@ -10,14 +10,14 @@
     </div>
     <div>
         <br>
-        {{Form::textarea('body',Input::old('body'),  array('placeholder'=>'Write your Blog')) }}
+        {{Form::textarea('body',Input::old('body'),  array('placeholder'=>'Write your Blog','class'=>'create-blog')) }}
     </div>
     <div>
         {{ Form::label('images',"Choose Image") }}
         {{ Form::file('file','',array('id'=>'fileId','class'=>'file')) }}
     </div>
     <br>
-    {{ Form::submit('Create') }}
+    {{ Form::submit('Create',['class'=>'btn']) }}
     {{Form::close() }}
     <hr>
     {{ link_to("user","Cancel") }} <br>

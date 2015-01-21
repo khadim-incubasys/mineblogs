@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
     //use UserTrait, RemindableTrait;
@@ -27,7 +26,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     protected $hidden = array('password', 'remember_token');
 
     public function blogs() {
-        return $this->hasMany('blogs');
+        return $this->hasMany('Blog');
     }
 
     public function my_blogs() {
@@ -57,9 +56,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
             $provider->logout();
 
-            $user = DB::table('users')->where('email', $userProfile->email)->first();
+//            $user = DB::table('users')->where('email', $userProfile->email)->first();
+            $user = $this->whereEmail($userProfile->email)->first();
             if (!$user) {
-                $password = $this->generatePassword();
+                $password = str_random(10); //$this->generatePassword();
                 $this->create([
                     'password' => Hash::make($password),
                     'email' => $userProfile->email,
@@ -70,15 +70,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
                     'status' => 1
                         ]
                 );
+                $user = $this->whereEmail($userProfile->email)->first();
             }
-            if (Auth::attempt(array('email' => $userProfile->email, 'password' => $password))) {
+            if (Auth::loginUsingId($user->id)) {
                 return TRUE;
             } else {
                 return FALSE;
             }
         } catch (Exception $e) {
             // exception codes can be found on HybBridAuth's web site
-            return  FALSE; //$e->getMessage();
+            return FALSE; //$e->getMessage();
         }
     }
 
@@ -116,16 +117,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             return TRUE;
         }
     }
-    public function update_user($id){
-         $user = User::where('id', $id)->first();
-         if($user){
-             $user->name=Request::input('name');
-             $user->city=Request::input('city');
-             $user->country=Request::input('country');
-             $user->save();
-             return TRUE;
-         }
-         return FALSE;
+
+    public function update_user($id) {
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            $user->name = Request::input('name');
+            $user->city = Request::input('city');
+            $user->country = Request::input('country');
+            $user->save();
+            return TRUE;
+        }
+        return FALSE;
     }
 
     public function getAuthIdentifier() {
@@ -152,33 +154,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         $this->remember_token = $value;
     }
 
-    public function generatePassword($length = 9, $strength = 0) {
-        $vowels = 'aeuy';
-        $consonants = 'bdghjmnpqrstvz';
-        if ($strength & 1) {
-            $consonants .= 'BDGHJLMNPQRSTVWXZ';
-        }
-        if ($strength & 2) {
-            $vowels .= "AEUY";
-        }
-        if ($strength & 4) {
-            $consonants .= '23456789';
-        }
-        if ($strength & 8) {
-            $consonants .= '@#$%';
-        }
-        $password = '';
-        $alt = time() % 2;
-        for ($i = 0; $i < $length; $i++) {
-            if ($alt == 1) {
-                $password .= $consonants[(rand() % strlen($consonants))];
-                $alt = 0;
-            } else {
-                $password .= $vowels[(rand() % strlen($vowels))];
-                $alt = 1;
-            }
-        }
-        return $password;
+    public function setPassword($password) {
+        $this->password = Hash::make($password);
     }
 
 }
+
+App::error(function(ModelNotFoundException $e) {
+    return Response::make('Not Found', 404);
+});

@@ -16,14 +16,36 @@ html {
 }
 
 .content {
-    width: 300px;
+    width: 60%;
     height: 200px;
     position: absolute;
-    left: 50%;
+    left: 40%;
     top: 10%;
     margin-left: -150px;
 }
-
+textarea{
+    height: 80px;
+    width: 60%;
+    resize: none;
+}
+.create-blog{
+    height: 300px;
+    width: 60%;
+    resize: none;
+}
+.comment1{
+    height: 80px;
+    width: 60%;
+    background-color: aquamarine;
+}
+.comment2{
+    height: 80px;
+    width: 60%;
+    background-color: cadetblue;
+}
+.created-by{
+    text-align: right;
+}
 a, a:visited {
     text-decoration:none;
 }
@@ -85,3 +107,59 @@ h1 {
     background:#cc9;
 }
 
+.btn{
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #18435e;
+    text-decoration: none;
+}
+
+.likeit{
+    background: #71a873;
+    background-image: -webkit-linear-gradient(top, #71a873, #588568);
+    background-image: -moz-linear-gradient(top, #71a873, #588568);
+    background-image: -ms-linear-gradient(top, #71a873, #588568);
+    background-image: -o-linear-gradient(top, #71a873, #588568);
+    background-image: linear-gradient(to bottom, #71a873, #588568);
+    text-shadow: 0px 1px 3px #666666;
+    -webkit-box-shadow: 0px 0px 0px #666666;
+    -moz-box-shadow: 0px 0px 0px #666666;
+    box-shadow: 0px 0px 0px #666666;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+
+}
+.likeit:hover {
+    background: #508a73;
+  text-decoration: none;
+}
+
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    background:#000 url(http://dbwebb.se/img/loader.gif) no-repeat scroll center center;
+}
+#lightbox {
+    position: fixed;
+    z-index: 999;
+}

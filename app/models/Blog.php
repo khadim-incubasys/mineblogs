@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 /** author:Khadim Raath */
 class Blog extends Eloquent {
 
@@ -10,8 +12,12 @@ class Blog extends Eloquent {
     // Don't forget to fill this array
     protected $fillable = [ 'title', 'body', 'user_id', 'imageUrl', 'likes'];
 
-    public static function user() {
-        return $this->hasOne('users');
+    public function user() {
+        return $this->belongsTo('User');
+    }
+
+    public function comments() {
+        return $this->hasMany('Comment');
     }
 
     public function create_with_image() {
@@ -38,7 +44,7 @@ class Blog extends Eloquent {
                 $upload_success = $file->move($uploadPath, $filename);
                 /////////////////////////
                 if ($upload_success) {
-                    Blog::create($data);
+                    $this::create($data);
                     Session::flash('error', 'Created successfully');
                     return TRUE;
                 }
@@ -75,3 +81,7 @@ class Blog extends Eloquent {
     }
 
 }
+
+App::error(function(ModelNotFoundException $e) {
+    return Response::make('Not Found', 404);
+});

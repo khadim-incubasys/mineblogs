@@ -1,6 +1,8 @@
 <?php
 
 /** author:Khadim Raath */
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class Comment extends Eloquent {
 
     protected $table = "comments";
@@ -11,6 +13,12 @@ class Comment extends Eloquent {
     protected $fillable = ['description', 'user_id', 'blog_id', 'likes', 'imageUrl'];
     protected $guarded = array('id', 'status');
 
+    public function blog() {
+        return $this->belongsTo('Blog');
+    }
+    public function user() {
+        return $this->belongsTo('User');
+    }
     public function create_with_image() {
         $data = Input::all();
         $validator = Validator::make($data, Comment::$rules);
@@ -58,3 +66,7 @@ class Comment extends Eloquent {
     }
 
 }
+
+App::error(function(ModelNotFoundException $e) {
+    return Response::make('Not Found', 404);
+});

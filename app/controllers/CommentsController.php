@@ -47,4 +47,10 @@ class CommentsController extends BaseController {
         return Redirect::route('comments.index');
     }
 
+    public function likeit($comment_id) {
+        $comment = Comment::findOrFail($comment_id);
+        $comment->increment('likes');
+        return Redirect::back();
+    }
+
 }

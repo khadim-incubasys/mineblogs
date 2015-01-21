@@ -15,7 +15,7 @@
         {{ Form::file('file','',array('id'=>'fileId','class'=>'file')) }}
     </div>
     <br>
-    {{ Form::submit('Create') }}
+    {{ Form::submit('Create',['class'=>'btn']) }}
     {{Form::close() }}
     <hr>
     {{ link_to("blog","Cancel") }} <br>

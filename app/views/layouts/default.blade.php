@@ -9,6 +9,8 @@
             @endif
         </title>
         {{ HTML::style( asset('css/all.css') ) }}
+        {{ HTML::script( asset('js/jquery-1.11.1.min.js')) }}
+        {{ HTML::script( asset('js/jquery-lightbox.js')) }}
     </head>
     <body>
         <header class="header row">
@@ -16,36 +18,12 @@
                 MineBlogs
             </h1>
         </header>
-        <div id="wrap">
-            <!--<div id="header"><h1>Document Heading</h1></div>-->
-            <div id="nav">
-                 <ul>
-                    <h3>{{ link_to("user","Home") }}</h3>
-                 </ul>
-            </div>
-            <div id="main">
-                <ul>
-                    <h3>{{ link_to("blog/create","Create Blog") }}</h3>
-                </ul>
-            </div>
-            <div id="nav">
-                 <ul>
-                   <h3>{{ link_to("blog","View All Blog") }}</h3>
-                 </ul>
-            </div>
-            <div id="main">
-                <ul>
-                   <h3>{{ link_to_route('user.show', "Profile", ['id'=>Auth::User()->id]); }}</h3>
-                </ul>
-            </div>
-            <div id="nav">
-                 <ul>
-                   <h3>{{ link_to("user/logout","logout") }}</h3>
-                 </ul>
-            </div>
-            
-          
-        </div>
+        @if(Auth::check())
+        @include('partials.user-sidebar')
+        @else
+         @include('partials.sidebar')
+        @endif
+
         <div class="content">
             @yield('content')
         </div>

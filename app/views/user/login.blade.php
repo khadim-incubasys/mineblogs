@@ -17,10 +17,10 @@
     {{Form::close() }}
     <hr>
     <div>
-        {{ link_to("user_loginwith/Facebook","Facebook") }} <br>
-        {{ link_to("user_loginwith/Google","Google") }} <br>
-        {{ link_to("user_loginwith/Twitter","Twitter") }}<br>
-        {{ link_to("user_loginwith/LinkedIn","LinkedIn") }} <br>
+        {{ link_to("user/loginwith/Facebook","Facebook") }} <br>
+        {{ link_to("user/loginwith/Google","Google") }} <br>
+        {{ link_to("user/loginwith/Twitter","Twitter") }}<br>
+        {{ link_to("user/loginwith/LinkedIn","LinkedIn") }} <br>
     </div>
     <div>
         <h3>

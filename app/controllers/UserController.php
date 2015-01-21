@@ -67,7 +67,15 @@ class UserController extends BaseController {
      *
      * @return Response
      */
-    public function create() {
+    public function updatepassword() {
+        return View::make('users.updatepassword');
+    }
+
+    public function changepassword() {
+        return "page";
+    }
+
+    public function create1() {
         //
     }
 
