@@ -6,9 +6,9 @@ class Blog extends Eloquent {
     protected $table = 'blogs';
     protected $primaryKey = 'id';
     protected $guarded = array('id', 'status');
-    public static $rules = ['title' => 'required', 'body' => 'required', 'file' => 'required|mimes:png,gif,jpeg'];
+    public static $rules = [ 'title' => 'required', 'body' => 'required', 'file' => 'required|mimes:png,gif,jpeg'];
     // Don't forget to fill this array
-    protected $fillable = ['title', 'body', 'user_id', 'imageUrl', 'likes'];
+    protected $fillable = [ 'title', 'body', 'user_id', 'imageUrl', 'likes'];
 
     public static function user() {
         return $this->hasOne('users');
@@ -30,7 +30,8 @@ class Blog extends Eloquent {
                 $filename = $file->getClientOriginalName();
                 $filename = str_replace(" ", "_", $filename);
                 $fileDesc = explode(".", $filename);
-                $filename = $fileDesc[0] . $ts . '.' . $fileDesc[1];
+                $filename = $fileDesc[
+                        0] . $ts . '.' . $fileDesc[1];
                 $data['imageUrl'] = $filename;
                 $data['user_id'] = Auth::User()->id;
                 $uploadPath = public_path() . '/uploads';
@@ -47,20 +48,30 @@ class Blog extends Eloquent {
         }
     }
 
-    public function getAuthIdentifier() {
-        return $this->id;
+    public function
+
+    getAuthIdentifier() {
+        return
+
+                $this->id;
     }
 
-    public function getRememberToken() {
-        return $this->remember_token;
+    public function
+
+    getRememberToken() {
+        return $this->
+                remember_token;
     }
 
     public function getRememberTokenName() {
-        return 'remember_token';
+        return
+
+                'remember_token';
     }
 
     public function setRememberToken($value) {
-        $this->remember_token = $value;
+        $this->
+                remember_token = $value;
     }
 
 }
