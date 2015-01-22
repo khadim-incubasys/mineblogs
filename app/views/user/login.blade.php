@@ -5,18 +5,18 @@
     <h1>User Login</h1>
     <hr>
     {{ Form::open() }}
-    <div>
-        {{Form::label('email','Email Adr') }}
-        {{Form::text('email') }}
+    <div class="input-wrap">
+        {{Form::text('email','',array('placeholder'=>'Email','class'=>'input')) }}
+        
     </div>
-    <div>
-        {{Form::label('password','Password') }}
-        {{Form::password('password') }}
+    <div class="input-wrap">
+        {{Form::password('password',array('placeholder'=>'Password','class'=>'input')) }}
     </div> <br>
-    {{ Form::submit('Login') }}
+    {{ Form::submit('Login',['class'=>'btn']) }}
     {{Form::close() }}
     <hr>
     <div>
+        <h3>OR Login With</h3>
         {{ link_to("user/loginwith/Facebook","Facebook") }} <br>
         {{ link_to("user/loginwith/Google","Google") }} <br>
         {{ link_to("user/loginwith/Twitter","Twitter") }}<br>
@@ -29,7 +29,7 @@
             @endif
         </h3>
     </div>
-    <hr>
-    {{ link_to("user/register","Signup") }} <br>
+
 </div>
+
 @stop

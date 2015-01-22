@@ -16,7 +16,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     protected $primaryKey = 'id';
     protected $fillable = array('email', 'password', 'name', 'city', 'country', 'imageUrl');
     protected $guarded = array('id', 'status');
-    public static $rules = ['name' => 'required', 'email' => 'required', 'password' => 'required'];
+    public static $rules = ['name' => 'required', 'email' => 'required|email', 'password' => 'required|confirmed|min:6', 'password_confirmation' => 'required|min:6', 'city' => 'required', 'country' => 'required'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -85,35 +85,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function register() {
         // $this->create(Request::input());
-
-        $validator = Validator::make(
-                        array(
-                    'name' => Request::input('name'),
-                    'password' => "123456", //Request::input('password'),
-                    'email' => Request::input('email'),
-                    'city' => Request::input('city'),
-                    'country' => Request::input('country'),
-                        ), array(
-                    'name' => 'required',
-                    'city' => 'required',
-                    'country' => 'required',
-                    'password' => 'required|min:6',
-                    'email' => 'required|email|unique:users'
-                        )
-        );
+        $data = Input::all();
+        $validator = Validator::make($data, User::$rules);
         if ($validator->fails()) {
             $messages = $validator->messages();
             return FALSE;
         } else {
-            $password = Hash::make("123456"); // Hash::make(Request::input('password')); 
-            $this->create([
-                'password' => $password,
-                'email' => Request::input('email'),
-                'name' => Request::input('name'),
-                'city' => Request::input('city'),
-                'country' => Request::input('country')
-                    ]
-            );
+            $data['password'] = Hash::make($data['password']); // Hash::make(Request::input('password')); 
+            $this->create($data);
             return TRUE;
         }
     }
@@ -152,10 +131,27 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function setRememberToken($value) {
         $this->remember_token = $value;
+        $this->save();
     }
 
     public function setPassword($password) {
         $this->password = Hash::make($password);
+        return $this->save();
+    }
+
+    public function updatePassword() {
+        $data=Input::all();
+        $validator = Validator::make(array("password" => $data['password'], "password_confirmation" => $data['password_confirmation']), array('password' => User::$rules['password'], 'password_confirmation' => User::$rules['password_confirmation']));
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            return FALSE;
+        }
+       // print_r($this->password.'='.Hash::make($data['old_password']));
+        if (Hash::check($this->password, $data['old_password'])) {
+            $this->setPassword($data['password']);
+            return TRUE;
+        }
+        return FALSE;
     }
 
 }

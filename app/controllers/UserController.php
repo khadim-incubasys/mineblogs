@@ -14,15 +14,15 @@ class UserController extends BaseController {
     public function index() {
         if (Auth::check()) {
             //return View::make("user/index")->withTitle("User-Home Page");
-            $blogs = Blog::all();
-            return View::make('blogs.index', compact('blogs'));
+            $user = Auth::User();
+            $blogs = $user->blogs()->get();
+            return View::make('user.index', compact('blogs'))->withTitle("My Blogs");
         } else {
             return Redirect::to('/user/login');
         }
     }
 
     public function login() {
-        // print_r(isMethod('post'));
         if (Request::isMethod('post')) {
             $user_model = new User();
             $response = $user_model->login();
@@ -46,68 +46,30 @@ class UserController extends BaseController {
 
     public function logout() {
         Auth::logout();
-        echo 'log out';
+        return Redirect::to('/');
     }
 
-    public function register() {
-        if (Request::isMethod('post')) {
-            $user_model = new User();
-            $user = $user_model->register();
-            if (!$user) {
-                return View::make("user/register")->withTitle("User Registration");
-            }
-            return Redirect::route('user/login')->withError("Registered Successfully");
-        } else {
-            return View::make("user/register")->withTitle("User Registration");
-        }
+    public function create() {
+        return View::make("user.create")->withTitle("User Registration");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function updatepassword() {
-        return View::make('users.updatepassword');
-    }
-
-    public function changepassword() {
-        return "page";
-    }
-
-    public function create1() {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
     public function store() {
-        
+        $user_model = new User();
+        $user = $user_model->register();
+        if (!$user) {
+            return Redirect::back()->withError(['Registration Failed']);
+        }
+        return Redirect::to('/user/login')->withError("Registered Successfully");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function show($id) {
         $user = User::where('id', $id)->first();
         if ($user) {
-            return View::make("user/show", compact('user'));
+            return View::make("user/show", compact('user'))->withTitle($user->name);
         }
         App::abort(404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function edit($id) {
         $user = User::where('id', $id)->first();
         if ($user) {
@@ -116,12 +78,10 @@ class UserController extends BaseController {
         echo 'User Not Exist';
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+    public function destroy($id) {
+        //
+    }
+
     public function update($id) {
         $user_model = new User();
         $response = $user_model->update_user($id);
@@ -131,14 +91,14 @@ class UserController extends BaseController {
         return Redirect::route('user.show', $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
+    public function update_password() {
+        return View::make('user.updatepassword')->withTitle("Update Password");
+    }
+
+    public function change_password() {
+        $response=Auth::User()->updatePassword();
+       // dd($response);
+        return Redirect::back()->withError(['Password Updated ']);
     }
 
 }

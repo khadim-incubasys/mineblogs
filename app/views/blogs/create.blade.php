@@ -5,8 +5,8 @@
     <h1>Create Blog</h1>
     <hr>
     {{ Form::open(['route' => ['blog.store'], 'method' => 'post','files'=>true]) }}
-    <div>
-        {{Form::text('title',Input::old('title'),  array('placeholder'=>'title')) }}
+    <div class="input-wrap">
+        {{Form::text('title',Input::old('title'),  array('placeholder'=>'Blog Title','class'=>'input-title')) }}
     </div>
     <div>
         <br>

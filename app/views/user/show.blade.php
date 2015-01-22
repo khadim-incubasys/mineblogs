@@ -10,7 +10,7 @@
     <p>City: {{ $user->city }}</p>
     <p>Country: {{ $user->country }}</p>
     <div>
-        {{ link_to("user/1/edit","Edit") }}
+        {{ link_to("user/1/edit","Edit",['class'=>'btn']) }}
     </div>
 </div>
 @stop

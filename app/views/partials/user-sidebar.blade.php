@@ -15,14 +15,15 @@
             <h3>{{ link_to("blog","View All Blog") }}</h3>
         </ul>
     </div>
+    
     <div id="main">
         <ul>
-            <h3>{{ link_to_route('user.show', "Profile", ['id'=>Auth::User()->id]); }}</h3>
+            <h3>{{ link_to("user/update_password","Update password") }}</h3>
         </ul>
     </div>
     <div id="nav">
         <ul>
-            <h3>{{ link_to("user","change pwd") }}</h3>
+            <h3>{{ link_to_route('user.show', "Profile", ['id'=>Auth::User()->id]); }}</h3>
         </ul>
     </div>
     <div id="main">

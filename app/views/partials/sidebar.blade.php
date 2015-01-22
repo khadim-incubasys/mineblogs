@@ -7,7 +7,7 @@
     </div>
     <div id="main">
         <ul>
-            <h3>{{ link_to("user/register","Register") }}</h3>
+            <h3>{{ link_to("user/create","Register") }}</h3>
         </ul>
     </div>
 

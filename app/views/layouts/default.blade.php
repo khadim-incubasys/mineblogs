@@ -11,6 +11,7 @@
         {{ HTML::style( asset('css/all.css') ) }}
         {{ HTML::script( asset('js/jquery-1.11.1.min.js')) }}
         {{ HTML::script( asset('js/jquery-lightbox.js')) }}
+        {{ HTML::script( asset('js/all.js')) }}
     </head>
     <body>
         <header class="header row">

@@ -1,9 +1,9 @@
 @extends('layouts.default')
 @section('content')
 <div class="welcome">
-    <h1 class="row">{{ $blog->title }}</h1>
+    <h1 class="blog-title">{{ $blog->title }}</h1>
     <p><img class='lightbox' src="{{asset('uploads').'/'.$blog->imageUrl }}" > </p>
-    <p>Author:{{ $blog->user()->first()->name }}</p>
+    <p>Author-:<span class="author-name">{{ $blog->user()->first()->name }}</span></p>
     <div>
         <p>{{ $blog->body }}</p>
     </div>

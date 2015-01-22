@@ -34,6 +34,7 @@ return array(
     'ClassPreloader\\Parser\\NodeTraverser' => $vendorDir . '/classpreloader/classpreloader/src/ClassPreloader/Parser/NodeTraverser.php',
     'Comment' => $baseDir . '/app/models/Comment.php',
     'CommentsController' => $baseDir . '/app/controllers/CommentsController.php',
+    'CommentsTableSeeder' => $baseDir . '/app/database/seeds/CommentsTableSeeder.php',
     'CreateBlogCommentsTable' => $baseDir . '/app/database/migrations/2015_01_12_114526_create_blog_comments_table.php',
     'CreateBlogsTable' => $baseDir . '/app/database/migrations/2015_01_20_054753_create_blogs_table.php',
     'CreateCommentsTable' => $baseDir . '/app/database/migrations/2015_01_20_124943_create_comments_table.php',
