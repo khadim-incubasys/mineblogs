@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
 /** author:Khadim Raath */
-class Blog extends Eloquent {
+class Blog extends Eloquent implements CustomInterface {
 
     protected $table = 'blogs';
     protected $primaryKey = 'id';
@@ -76,8 +75,11 @@ class Blog extends Eloquent {
     }
 
     public function setRememberToken($value) {
-        $this->
-                remember_token = $value;
+        $this-> remember_token = $value;
+    }
+
+    public function save_with_image() {
+        
     }
 
 }

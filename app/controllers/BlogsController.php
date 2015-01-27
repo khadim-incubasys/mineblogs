@@ -4,7 +4,9 @@
 class BlogsController extends BaseController {
 
     public function index() {
-        $blogs = Blog::where("permission", '=', '1')->get();
+       // $blogs = Blog::where("permission", '=', '1')->get();
+        $blogs = Blog::where("permission", '=', '1')->paginate(3);
+       // dd()
         return View::make('blogs.index', compact('blogs'))->withTitle("All Public Blogs");
     }
 

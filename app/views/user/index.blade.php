@@ -22,6 +22,9 @@
         </div>
         @endforeach
     </div>
+    <div>
+        {{ $blogs->links() }}
+    </div>
     @endif
 </div>
 @stop

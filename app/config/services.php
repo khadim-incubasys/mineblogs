@@ -15,8 +15,8 @@ return array(
 	*/
 
 	'mailgun' => array(
-		'domain' => '',
-		'secret' => '',
+		'domain' => 'no-reply@incubasys.com',
+		'secret' => 'no-rep@$$',
 	),
 
 	'mandrill' => array(

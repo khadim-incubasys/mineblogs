@@ -42,9 +42,10 @@
             }
             ?>
             <div class="comment{{$c}}">
+                <p><img class='lightbox' src="{{ $comment->user()->first()->imageUrl }}" style="height: 50px"> </p>
                 {{($comment['description'])}}
                 <p class="created-by"> By: {{ $comment->user()->first()->name }}</p>
-                <p> {{ $comment['likes'] }} Likes {{ link_to("comment/like/".$comment['id'],"Like",['class'=>'likeit']) }}</p>
+                <span  class="comment-likes"> {{ $comment['likes'] }} Likes {{ link_to("comment/like/".$comment['id'],"Like",['class'=>'likeit']) }}</span>
             </div>
         <?php } ?>
 

@@ -13,6 +13,7 @@ html {
     color:#000;
     background:#DFDFF2;
     height: 100%;
+    font: 14px/24px sans-serif;
 }
 
 .content {
@@ -47,15 +48,16 @@ textarea{
     width: 60%;
     resize: none;
 }
-.comment1{
-    height: 80px;
+.comment1,.comment2{
+    height: 150px;
     width: 60%;
     background-color: aquamarine;
 }
 .comment2{
-    height: 80px;
-    width: 60%;
     background-color: cadetblue;
+}
+.comment-likes{
+    margin-right: 0;
 }
 .created-by{
     text-align: right;
@@ -164,6 +166,9 @@ h1 {
 }
 
 
+
+
+
 #overlay {
     position: fixed;
     top: 0;
@@ -177,6 +182,10 @@ h1 {
     position: fixed;
     z-index: 999;
 }
+
+
+
+
 
 .input,.input-title{
     border: 1px solid #6297BC;
@@ -205,3 +214,26 @@ h1 {
 .public-dropdown{
     color: #002166;
 }
+
+
+
+
+.pagination {
+  display: inline;
+  width: 100%;
+  font-size: 1.2em;
+}
+.pagination li{
+    display: block;
+}
+
+.pagination li a:hover {
+  background: #eee;
+  color: #555;
+}
+.pagination li a:active {
+  -webkit-box-shadow: inset -1px 2px 5px rgba(0,0,0,0.25);
+  -moz-box-shadow: inset -1px 2px 5px rgba(0,0,0,0.25);
+  box-shadow: inset -1px 2px 5px rgba(0,0,0,0.25);
+}
+ 

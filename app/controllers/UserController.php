@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Contracts\MessageProviderInterface;
+
 class UserController extends BaseController {
 
     /**
@@ -7,15 +9,41 @@ class UserController extends BaseController {
      *
      * @return Response
      */
-    public function __construct() {
-        // $this->filter('before', 'auth');
+    protected $messages;
+
+    public function __construct(MessageProviderInterface $messages) {
+        $this->messages = $messages;
     }
 
     public function index() {
         if (Auth::check()) {
-            //return View::make("user/index")->withTitle("User-Home Page");
+            //print_r(Config::get('global_values.admin_name')); // get global values
+            // display_messages();
+            //CustomLib::display();
+//            $messageBag = $this->messages;
+//            $messageBag->add('error', 'Error Message 1');
+//            $messageBag->add('error', 'Error Message 2');
+//            print_r($messageBag->get('error'));
+//            dd();
+
+
+//            $user = array(
+//                'email' => 'khadim.raath@incubasys.com',
+//                'name' => 'Laravelovich'
+//            );
+//            $data = array(
+//            'detail' => 'Your awesome detail here',
+//            'name' => $user['name']
+//            );
+//            Mail::send('emails.welcome', $data, function($message) use ($user) {
+//                $message->from('khadim.raath@incubasys.com', 'Site Admin');
+//                $message->to($user['email'], $user['name'])->subject('Welcome to My Laravel app!');
+//            });
+
+
             $user = Auth::User();
-            $blogs = $user->blogs()->get();
+           // $blogs = $user->blogs()->get();
+            $blogs = $user->blogs()->paginate(1);
             return View::make('user.index', compact('blogs'))->withTitle("My Blogs");
         } else {
             return Redirect::to('/user/login');
@@ -96,8 +124,8 @@ class UserController extends BaseController {
     }
 
     public function change_password() {
-        $response=Auth::User()->updatePassword();
-       // dd($response);
+        $response = Auth::User()->updatePassword();
+        // dd($response);
         return Redirect::back()->withError(['Password Updated ']);
     }
 
