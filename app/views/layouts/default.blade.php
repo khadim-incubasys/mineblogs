@@ -9,6 +9,7 @@
             @endif
         </title>
         {{ HTML::style( asset('css/all.css') ) }}
+        {{ HTML::style( asset('css/style.css') ) }}
         {{ HTML::script( asset('js/jquery-1.11.1.min.js')) }}
         {{ HTML::script( asset('js/jquery-lightbox.js')) }}
         {{ HTML::script( asset('js/all.js')) }}

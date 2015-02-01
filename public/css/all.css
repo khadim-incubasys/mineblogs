@@ -20,8 +20,8 @@ html {
     width: 60%;
     height: 200px;
     position: absolute;
-    left: 35%;
-    top: 10%;
+    left: 30%;
+    top: 15%;
     margin-left: -150px;
 }
 textarea{
@@ -31,7 +31,7 @@ textarea{
     resize: none;
 }
 .blogs{
- 
+
 }
 .blog-title{
     text-decoration: underline;
@@ -47,11 +47,13 @@ textarea{
     height: 300px;
     width: 60%;
     resize: none;
+    
 }
 .comment1,.comment2{
     height: 150px;
     width: 60%;
     background-color: aquamarine;
+    display: inline;
 }
 .comment2{
     background-color: cadetblue;
@@ -86,7 +88,7 @@ h1 {
     left: 0;
     bottom: 0;
     color: #fff;
-    padding: 40px 0;
+    padding: 30px 0;
     width: 100%;    
     text-align:center;
 }
@@ -135,6 +137,7 @@ h1 {
     font-size: 15px;
     padding: 10px 20px 10px 20px;
     text-decoration: none;
+    border: 0;
 }
 
 .btn:hover {
@@ -192,16 +195,17 @@ h1 {
     width: 40%;
     height:70%;
     font-size: 20px;
-    
+    padding-left: 10px;
+
 }
 .input-title{
     width: 60%;
     font-size: 20px;
-    
+
 }
 
 .input-wrap{
-  height: 60px;
+    height: 60px;
 }
 .likes{
     display: inline;
@@ -218,22 +222,61 @@ h1 {
 
 
 
-.pagination {
-  display: inline;
-  width: 100%;
-  font-size: 1.2em;
-}
-.pagination li{
-    display: block;
+
+
+
+.pagination{
+    padding: 2px;
 }
 
-.pagination li a:hover {
-  background: #eee;
-  color: #555;
+.pagination ul{
+    margin: 0;
+    padding: 0;
+    text-align: left; /*Set to "right" to right align pagination interface*/
+    font-size: 20px;
 }
-.pagination li a:active {
-  -webkit-box-shadow: inset -1px 2px 5px rgba(0,0,0,0.25);
-  -moz-box-shadow: inset -1px 2px 5px rgba(0,0,0,0.25);
-  box-shadow: inset -1px 2px 5px rgba(0,0,0,0.25);
+
+.pagination li{
+    list-style-type: none;
+    display: inline;
+    padding-bottom: 5px;
 }
- 
+.pagination li.active{
+    padding: 0 7px;
+    border: 5px solid #272727;
+    color: #2e6ab1;
+    background-color: #FEFF80;
+    
+}
+
+.pagination a{
+    padding: 0 7px;
+    border: 5px solid #9aafe5;
+    text-decoration: none; 
+    color: #2e6ab1;
+}
+
+.pagination a:hover{
+    border: 5px solid #2b66a5;
+    color: #2e6ab1;
+    background-color: #FFFF80;
+}
+
+
+#blog-img{
+    max-height: 300px;
+    max-width: 500px;
+}
+#comment-img{
+    height: 30px;
+    width: 30px;
+}
+
+
+///////
+.tweet{
+    top: 30%;
+    position: absolute;
+}
+.favourites{
+}

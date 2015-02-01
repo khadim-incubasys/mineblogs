@@ -43,7 +43,7 @@ class UserController extends BaseController {
 
             $user = Auth::User();
            // $blogs = $user->blogs()->get();
-            $blogs = $user->blogs()->paginate(1);
+            $blogs = $user->blogs()->paginate(3);
             return View::make('user.index', compact('blogs'))->withTitle("My Blogs");
         } else {
             return Redirect::to('/user/login');

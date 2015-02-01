@@ -2,8 +2,8 @@
 @section('content')
 <div class="welcome">
     <h1 class="blog-title">{{ $blog->title }}</h1>
-    <p><img class='lightbox' src="{{asset('uploads').'/'.$blog->imageUrl }}" > </p>
-    <p>Author-:<span class="author-name">{{ $blog->user()->first()->name }}</span></p>
+    <p><img id="blog-img" class='lightbox' src="{{asset('uploads').'/'.$blog->imageUrl }}" > </p>
+    <p>Author-:<span class="author-name">{{ $blog->user("name")->first()->name }}</span></p>
     <div>
         <p>{{ $blog->body }}</p>
     </div>
@@ -24,7 +24,7 @@
                 {{ Form::file('file','',array('id'=>'fileId','class'=>'file')) }}
             </div>
             <br>
-            {{ Form::submit('Post',['class'=>'btn']) }}
+            {{ Form::submit('Leave a comment',['class'=>'btn']) }}
 
             {{Form::close() }}
         </div>
@@ -33,19 +33,27 @@
 
         <?php
         $comments = $blog->comments()->get();
-        $c = 1;
+        ?> 
+        <p> <?= count($comments); ?> comments</p>
+        <?php
         foreach ($comments as $comment) {
-            if ($c == 1)
-                $c = 2;
-            else {
-                $c = 1;
-            }
             ?>
-            <div class="comment{{$c}}">
-                <p><img class='lightbox' src="{{ $comment->user()->first()->imageUrl }}" style="height: 50px"> </p>
-                {{($comment['description'])}}
-                <p class="created-by"> By: {{ $comment->user()->first()->name }}</p>
-                <span  class="comment-likes"> {{ $comment['likes'] }} Likes {{ link_to("comment/like/".$comment['id'],"Like",['class'=>'likeit']) }}</span>
+            <div class="tweet">
+                <div class="tweet-header">  
+                    <img id="comment-img" src="{{ $comment->user()->first()->imageUrl }}" alt="">
+                    <span class="created-by">{{ $comment->user()->first()->name }}</span>
+                    <span class="created_at">
+                        {{$comment['created_at'] }}
+                    </span>
+                </div>
+                <div class="tweet-body">
+                    <p class="tweet-desc">
+                        {{($comment['description'])}}
+                    </p>
+                    <span class="favourites">
+                        {{ $comment['likes'] }} favorites
+                    </span>
+                </div>
             </div>
         <?php } ?>
 
